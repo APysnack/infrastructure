@@ -21,8 +21,8 @@ export const loginUser = async (email, password) => {
 
   const response = await post('/login', payload);
   
-  if (response.data?.token) {
-    setToken(response.data.token);
+  if (response.token) {
+    setToken(response.token);
   }
   
   return response;
