@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../../utils/api';
+import ThemeSelector from '../../components/ThemeSelector';
 import {
   Container,
   Card,
@@ -13,7 +14,7 @@ import {
   SecondaryButton,
   Divider,
   Alert,
-} from './SignupForm.styles';
+} from './ThemeableComponents';
 
 const SignupForm = ({ onSwitchToLogin }) => {
   const navigate = useNavigate();
@@ -41,6 +42,7 @@ const SignupForm = ({ onSwitchToLogin }) => {
 
   return (
     <Container>
+      <ThemeSelector />
       <Card>
         <Title>Create Account</Title>
         <Subtitle>Join us today</Subtitle>
