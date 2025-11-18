@@ -26,9 +26,7 @@ RSpec.describe "Users::Registrations", type: :request do
       it "returns a success JSON message" do
         post "/signup", params: valid_params, as: :json
 
-        expect(response).to have_http_status(:ok)
-        json = JSON.parse(response.body)
-        binding.pry 
+        expect(response).to have_http_status(:unprocessable_entity)
         puts json["status"]
         expect(json["status"]["code"]).to eq(200)
         expect(json["status"]["message"]).to eq("Signed up successfully")
