@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import LoginForm from './LoginForm';
+import LoginPage from './LoginPage';
 import UserDashboard from './UserDashboard';
 import ProtectedRoute from './ProtectedRoute';
 import { isAuthenticated } from './utils/api';
@@ -13,7 +13,10 @@ function App() {
           path="/" 
           element={isAuthenticated() ? <Navigate to="/members" replace /> : <Navigate to="/register" replace />} 
         />
-        <Route path="/register" element={<LoginForm />} />
+        <Route 
+          path="/register" 
+          element={isAuthenticated() ? <Navigate to="/members" replace /> : <LoginPage />} 
+        />
         <Route path="/members" element={<ProtectedRoute element={<UserDashboard />} />} />
       </Routes>
     </Router>
