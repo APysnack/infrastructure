@@ -110,34 +110,6 @@ export const modernTealTheme = {
   },
 };
 
-// Warm Orange Theme
-export const warmOrangeTheme = {
-  name: 'Warm Orange',
-  colors: {
-    background: 'linear-gradient(135deg, #f97316 0%, #d97706 100%)',
-    card: '#fafaf9',
-    cardBorder: '#e7e5e4',
-    text: '#292524',
-    textSecondary: '#78716c',
-    textTertiary: '#a8a29e',
-    input: '#ffffff',
-    inputBorder: '#e7e5e4',
-    inputFocus: '#f97316',
-    primaryButton: 'linear-gradient(135deg, #f97316 0%, #d97706 100%)',
-    primaryButtonHover: '#ea580c',
-    primaryButtonActive: '#c2410c',
-    secondaryButton: '#f5f5f5',
-    secondaryButtonBorder: '#e7e5e4',
-    secondaryButtonText: '#f97316',
-    secondaryButtonHover: '#f5f5f4',
-    divider: '#e7e5e4',
-    dividerText: '#a8a29e',
-    alert: '#fed7aa',
-    alertBorder: '#fed7aa',
-    alertText: '#92400e',
-  },
-};
-
 // Original Purple Theme
 export const purpleTheme = {
   name: 'Purple',

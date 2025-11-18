@@ -4,7 +4,6 @@ import {
   modernSlateTheme,
   minimalistBlueTheme,
   modernTealTheme,
-  warmOrangeTheme,
   purpleTheme,
 } from '../themes/themeDefinitions';
 
@@ -15,7 +14,6 @@ const themes = {
   'modern-slate': modernSlateTheme,
   'minimalist-blue': minimalistBlueTheme,
   'modern-teal': modernTealTheme,
-  'warm-orange': warmOrangeTheme,
   'purple': purpleTheme,
 };
 

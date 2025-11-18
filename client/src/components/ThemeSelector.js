@@ -18,9 +18,9 @@ const Select = styled.select`
   font-family: inherit;
   transition: all 0.2s;
 
-  border-color: ${(props) => props.borderColor};
-  background-color: ${(props) => props.backgroundColor};
-  color: ${(props) => props.textColor};
+  border-color: ${(props) => props.$borderColor};
+  background-color: ${(props) => props.$backgroundColor};
+  color: ${(props) => props.$textColor};
 
   &:hover {
     opacity: 0.9;
@@ -45,7 +45,6 @@ export const ThemeSelector = () => {
     'modern-slate': 'Modern Slate',
     'minimalist-blue': 'Minimalist Blue',
     'modern-teal': 'Modern Teal',
-    'warm-orange': 'Warm Orange',
     'purple': 'Purple',
   };
 
@@ -54,9 +53,9 @@ export const ThemeSelector = () => {
       <Select
         value={currentTheme}
         onChange={(e) => switchTheme(e.target.value)}
-        backgroundColor={colors.card}
-        borderColor={colors.cardBorder || colors.inputBorder}
-        textColor={colors.text}
+        $backgroundColor={colors.card}
+        $borderColor={colors.cardBorder || colors.inputBorder}
+        $textColor={colors.text}
       >
         {availableThemes.map((theme) => (
           <option key={theme} value={theme}>
