@@ -1,7 +1,19 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from './utils/api';
-import './SignupForm.css';
+import {
+  Container,
+  Card,
+  Title,
+  Subtitle,
+  Form,
+  FormGroup,
+  Input,
+  PrimaryButton,
+  SecondaryButton,
+  Divider,
+  Alert,
+} from './SignupForm.styles';
 
 const SignupForm = ({ onSwitchToLogin }) => {
   const navigate = useNavigate();
@@ -28,69 +40,58 @@ const SignupForm = ({ onSwitchToLogin }) => {
   };
 
   return (
-    <div className="signup-container">
-      <div className="signup-card">
-        <h1 className="signup-title">Create Account</h1>
-        <p className="signup-subtitle">Join us today</p>
+    <Container>
+      <Card>
+        <Title>Create Account</Title>
+        <Subtitle>Join us today</Subtitle>
 
-        {error && (
-          <div className="alert alert-error">
-            {error}
-          </div>
-        )}
+        {error && <Alert>{error}</Alert>}
 
-        <form onSubmit={handleSubmit} className="signup-form">
-          <div className="form-group">
-            <input
+        <Form onSubmit={handleSubmit}>
+          <FormGroup>
+            <Input
               type="email"
               placeholder="Email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="form-input"
               required
             />
-          </div>
+          </FormGroup>
           
-          <div className="form-group">
-            <input
+          <FormGroup>
+            <Input
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="form-input"
               required
             />
-          </div>
+          </FormGroup>
           
-          <div className="form-group">
-            <input
+          <FormGroup>
+            <Input
               type="password"
               placeholder="Confirm Password"
               value={passwordConfirmation}
               onChange={(e) => setPasswordConfirmation(e.target.value)}
-              className="form-input"
               required
             />
-          </div>
+          </FormGroup>
 
-          <button type="submit" className="btn btn-primary">
+          <PrimaryButton type="submit">
             Sign Up
-          </button>
-        </form>
+          </PrimaryButton>
+        </Form>
 
-        <div className="divider">
+        <Divider>
           <span>or</span>
-        </div>
+        </Divider>
 
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={onSwitchToLogin}
-        >
+        <SecondaryButton type="button" onClick={onSwitchToLogin}>
           Already registered? Log in here
-        </button>
-      </div>
-    </div>
+        </SecondaryButton>
+      </Card>
+    </Container>
   );
 };
 
