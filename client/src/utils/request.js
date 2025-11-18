@@ -1,5 +1,9 @@
 const API_BASE_URL = 'http://localhost:3000';
 
+// Token storage and retrieval
+export const getToken = () => localStorage.getItem('authToken');
+export const setToken = (token) => localStorage.setItem('authToken', token);
+export const clearToken = () => localStorage.removeItem('authToken');
 
 export const get = (endpoint) => request(endpoint, 'GET');
 export const post = (endpoint, payload) => request(endpoint, 'POST', payload);
@@ -12,6 +16,11 @@ export const request = async (endpoint, method, payload = null) => {
     method,
     headers: { 'Content-Type': 'application/json' }
   };
+
+  const token = getToken();
+  if (token) {
+    options.headers['Authorization'] = `Bearer ${token}`;
+  }
 
   if (payload) {
     options.body = JSON.stringify(payload);
