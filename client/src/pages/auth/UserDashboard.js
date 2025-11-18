@@ -1,5 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../utils/api';
+import ThemeSelector from '../../components/ThemeSelector';
+import {
+  DashboardContainer,
+  DashboardCard,
+  DashboardTitle,
+  LogoutButton,
+} from './ThemeableDashboardComponents';
 
 function UserDashboard() {
   const navigate = useNavigate();
@@ -7,18 +14,23 @@ function UserDashboard() {
   const handleLogout = async () => {
     try {
       await logoutUser();
-      navigate('/register', { replace: true });
+      navigate('/', { replace: true });
     } catch (error) {
       console.error('Logout failed:', error);
-      navigate('/register', { replace: true });
+      navigate('/', { replace: true });
     }
   };
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <button onClick={handleLogout}>Log Out</button>
-    </div>
+    <DashboardContainer>
+      <ThemeSelector />
+      <DashboardCard>
+        <DashboardTitle>Dashboard</DashboardTitle>
+        <LogoutButton onClick={handleLogout}>
+          Log Out
+        </LogoutButton>
+      </DashboardCard>
+    </DashboardContainer>
   );
 }
 

@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import SignupForm from './SignupForm';
 import LoginForm from './LoginForm';
 
 const LoginPage = () => {
-  const [showSignup, setShowSignup] = useState(true);
+  const location = useLocation();
+  const [showSignup, setShowSignup] = useState(location.pathname === '/register');
 
   return (
     <>
