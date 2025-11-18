@@ -1,36 +1,22 @@
 import React, { useState } from 'react';
+import { registerUser } from './utils/api';
 
 const SignupForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const userData = {
-      user: {
-        email,
-        password,
-        password_confirmation: passwordConfirmation,
-      },
-    };
+  try {
+    const data = await registerUser(email, password, passwordConfirmation);
+    console.log('Signup response:', data);
+  } catch (err) {
+    console.error('Error signing up:', err);
+  }
+};
 
-    try {
-      const response = await fetch('http://localhost:3000/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      });
-
-      const data = await response.json();
-      console.log('Signup response:', data);
-    } catch (error) {
-      console.error('Error signing up:', error);
-    }
-  };
 
   return (
     <div style={{ width: '300px', margin: '50px auto', textAlign: 'center' }}>
