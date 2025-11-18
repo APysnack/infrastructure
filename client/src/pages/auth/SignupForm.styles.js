@@ -1,12 +1,4 @@
 import styled from 'styled-components';
-import { useTheme } from '../../context/ThemeContext';
-
-// Hook to get styled component props from theme
-const getThemeColors = () => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { theme } = useTheme();
-  return theme.colors;
-};
 
 export const Container = styled.div`
   display: flex;
