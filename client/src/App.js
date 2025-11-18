@@ -1,7 +1,7 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import LoginPage from './LoginPage';
-import UserDashboard from './UserDashboard';
+import LoginPage from './pages/auth/LoginPage';
+import UserDashboard from './pages/auth/UserDashboard';
 import ProtectedRoute from './ProtectedRoute';
 import { isAuthenticated } from './utils/api';
 

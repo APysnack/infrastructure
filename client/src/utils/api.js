@@ -44,7 +44,5 @@ export const getCurrentUser = async () => {
 };
 
 export const isAuthenticated = () => {
-  console.log("IAMHERE")
-  console.log(getToken())
   return !!getToken();
 };
