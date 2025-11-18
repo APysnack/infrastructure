@@ -29,14 +29,22 @@ class Users::SessionsController < Devise::SessionsController
   private 
 
   def respond_with(resource, _opts = {})
-    token = Warden::JWTAuth::UserEncoder.new.call(resource, :user, nil).first
-    
-    render json: {
-      code: 200,
-      message: 'Logged in successfully',
-      data: UserSerializer.new(resource).serializable_hash[:data][:attributes],
-      token: token
-    }
+    if resource.persisted?
+      token = Warden::JWTAuth::UserEncoder.new.call(resource, :user, nil).first
+      
+      response.headers['Authorization'] = "Bearer #{token}"
+      
+      render json: {
+        code: 200,
+        message: 'Logged in successfully',
+        data: UserSerializer.new(resource).serializable_hash[:data][:attributes]
+      }
+    else
+      render json: {
+        code: 401,
+        message: 'Invalid email or password'
+      }, status: :unauthorized
+    end
   end
 
   def respond_to_on_destroy

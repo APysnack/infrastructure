@@ -7,10 +7,6 @@ export const registerUser = async (email, password, passwordConfirmation) => {
 
   const response = await post('/signup', payload);
   
-  if (response.token) {
-    setToken(response.token);
-  }
-  
   return response;
 };
 
@@ -20,10 +16,6 @@ export const loginUser = async (email, password) => {
   };
 
   const response = await post('/login', payload);
-  
-  if (response.token) {
-    setToken(response.token);
-  }
   
   return response;
 };

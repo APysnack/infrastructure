@@ -70,10 +70,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
       # Generate JWT token for the newly created user
       token = Warden::JWTAuth::UserEncoder.new.call(resource, :user, nil).first
       
+      response.headers['Authorization'] = "Bearer #{token}"
+      
       render json: {
         status: { code: 200, message: "Signed up successfully" },
-        data: UserSerializer.new(resource).serializable_hash[:data][:attributes],
-        token: token
+        data: UserSerializer.new(resource).serializable_hash[:data][:attributes]
       }
     else
       render json:{
