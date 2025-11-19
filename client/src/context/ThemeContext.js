@@ -14,7 +14,7 @@ const themes = {
   'modern-slate': modernSlateTheme,
   'minimalist-blue': minimalistBlueTheme,
   'modern-teal': modernTealTheme,
-  purple: purpleTheme,
+  'purple-theme': purpleTheme,
 };
 
 export const ThemeProvider = ({ children }) => {

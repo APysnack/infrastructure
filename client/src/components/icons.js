@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const MembersIcon = ({ color }) => (
   <svg
     width="16"
