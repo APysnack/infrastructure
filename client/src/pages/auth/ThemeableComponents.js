@@ -21,11 +21,7 @@ export const Container = (props) => {
 export const Card = (props) => {
   const { theme } = useTheme();
   return (
-    <StyledCard
-      $background={theme.colors.card}
-      $border={theme.colors.cardBorder}
-      {...props}
-    />
+    <StyledCard $background={theme.colors.card} $border={theme.colors.cardBorder} {...props} />
   );
 };
 

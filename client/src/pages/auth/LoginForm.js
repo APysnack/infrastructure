@@ -29,7 +29,7 @@ const LoginForm = ({ onSwitchToSignup }) => {
     try {
       const data = await loginUser(email, password);
       console.log('Login response:', data);
-      
+
       if (data.code === 200 || data.data) {
         navigate('/members');
       }
@@ -58,7 +58,7 @@ const LoginForm = ({ onSwitchToSignup }) => {
               required
             />
           </FormGroup>
-          
+
           <FormGroup>
             <Input
               type="password"
@@ -69,9 +69,7 @@ const LoginForm = ({ onSwitchToSignup }) => {
             />
           </FormGroup>
 
-          <PrimaryButton type="submit">
-            Log In
-          </PrimaryButton>
+          <PrimaryButton type="submit">Log In</PrimaryButton>
         </Form>
 
         <Divider>

@@ -3,7 +3,7 @@ const API_BASE_URL = 'http://localhost:3000';
 export const request = async (endpoint, method, payload = null) => {
   const options = {
     method,
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
   };
 
   const token = getToken();
@@ -22,16 +22,16 @@ export const request = async (endpoint, method, payload = null) => {
       const token = authHeader.replace('Bearer ', '');
       setToken(token);
     }
-    
+
     const contentType = res.headers.get('content-type');
-    const data = contentType?.includes('application/json') 
-      ? await res.json() 
+    const data = contentType?.includes('application/json')
+      ? await res.json()
       : { message: await res.text() };
-    
+
     if (!res.ok) {
       throw new Error(data.message || `HTTP error! status: ${res.status}`);
     }
-    
+
     return data;
   } catch (err) {
     console.error(`Error making ${method} request to ${endpoint}:`, err);

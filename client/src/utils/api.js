@@ -2,21 +2,21 @@ import { post, get, put, patch, del, setToken, clearToken, getToken } from './re
 
 export const registerUser = async (email, password, passwordConfirmation) => {
   const payload = {
-    user: { email, password, password_confirmation: passwordConfirmation }
+    user: { email, password, password_confirmation: passwordConfirmation },
   };
 
   const response = await post('/signup', payload);
-  
+
   return response;
 };
 
 export const loginUser = async (email, password) => {
   const payload = {
-    user: { email, password }
+    user: { email, password },
   };
 
   const response = await post('/login', payload);
-  
+
   return response;
 };
 
