@@ -42,7 +42,6 @@ const SignupForm = ({ onSwitchToLogin }) => {
 
   return (
     <Container>
-      <ThemeSelector />
       <Card>
         <Title>Create Account</Title>
         <Subtitle>Join us today</Subtitle>

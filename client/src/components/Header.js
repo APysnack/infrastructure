@@ -3,7 +3,7 @@ import { LogoutButton } from '../pages/auth/ThemeableDashboardComponents';
 import { useTheme } from '../context/ThemeContext';
 import { logoutUser } from '../utils/api';
 import { HeaderBar, Brand, Logo, Title, Actions, CenterSlot, ActionItem } from './Header.styles';
-import { MembersIcon, LogoutIcon, SettingsIcon } from './icons';
+import { MembersIcon, LogoutIcon, SettingsIcon, AtomLogo } from './icons';
 
 function Header({ title }) {
   const navigate = useNavigate();
@@ -20,6 +20,10 @@ function Header({ title }) {
     }
   };
 
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
   const location = useLocation();
   const actionItems = [
     { label: 'Members', to: '/members', icon: MembersIcon },
@@ -28,11 +32,11 @@ function Header({ title }) {
 
   return (
     <HeaderBar $background={colors.card} $border={colors.divider}>
-      <Brand>
+      <Brand onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
         <Logo $logoBackground={colors.primaryButton} $logoColor={colors.text}>
-          A
+          <AtomLogo size={24} color={colors.text} />
         </Logo>
-        <Title $color={colors.text}>{title || 'App'}</Title>
+        <Title $color={colors.text}>{title || 'Ethos'}</Title>
       </Brand>
 
       <CenterSlot />

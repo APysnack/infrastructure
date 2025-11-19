@@ -41,7 +41,6 @@ const LoginForm = ({ onSwitchToSignup }) => {
 
   return (
     <Container>
-      <ThemeSelector />
       <Card>
         <Title>Welcome Back</Title>
         <Subtitle>Log in to your account</Subtitle>

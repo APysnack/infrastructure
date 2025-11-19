@@ -46,7 +46,7 @@ export const ThemeSelector = ({ inline = false, ariaLabel = 'Select theme' }) =>
     'modern-slate': 'Modern Slate',
     'minimalist-blue': 'Minimalist Blue',
     'modern-teal': 'Modern Teal',
-    purple: 'Purple',
+    'purple-theme': 'Purple Theme',
   };
 
   return (

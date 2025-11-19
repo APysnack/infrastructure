@@ -1,3 +1,34 @@
+export const AtomLogo = ({ size = 32, color = 'currentColor' }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 64 64"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle cx="32" cy="32" r="4" fill={color} />
+    <ellipse
+      cx="32"
+      cy="32"
+      rx="20"
+      ry="6"
+      stroke={color}
+      strokeWidth="2"
+      transform="rotate(45 32 32)"
+    />
+    <ellipse
+      cx="32"
+      cy="32"
+      rx="20"
+      ry="6"
+      stroke={color}
+      strokeWidth="2"
+      transform="rotate(-45 32 32)"
+    />
+    <ellipse cx="32" cy="32" rx="20" ry="6" stroke={color} strokeWidth="2" />
+  </svg>
+);
+
 export const MembersIcon = ({ color }) => (
   <svg
     width="16"
