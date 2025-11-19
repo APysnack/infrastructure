@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { LogoutButton } from '../pages/auth/ThemeableDashboardComponents';
 import { useTheme } from '../context/ThemeContext';
 import { logoutUser } from '../utils/api';
-import { HeaderBar, Brand, Logo, Title, Actions, CenterSlot, ActionItem } from './Header.styles';
+import { HeaderBar, Brand, Logo, Title, Actions, ActionItem } from './Header.styles';
 import { MembersIcon, LogoutIcon, SettingsIcon, AtomLogo } from './icons';
 
 function Header({ title }) {
@@ -38,8 +38,6 @@ function Header({ title }) {
         </Logo>
         <Title $color={colors.text}>{title || 'Ethos'}</Title>
       </Brand>
-
-      <CenterSlot />
 
       <Actions>
         {actionItems.map((item) => {

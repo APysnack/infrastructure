@@ -50,13 +50,6 @@ export const Actions = styled.div`
   gap: 8px;
 `;
 
-export const CenterSlot = styled.div`
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 export const ActionItem = styled.button`
   background: ${(p) => (p.$active ? p.$activeBg || `rgba(255,255,255,0.1)` : 'transparent')};
   color: ${(p) => (p.$active ? p.$colorActive || p.$color : p.$color)};
