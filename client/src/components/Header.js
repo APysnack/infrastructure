@@ -8,7 +8,13 @@ import { MembersIcon, LogoutIcon, SettingsIcon, AtomLogo } from './icons';
 function Header({ title }) {
   const navigate = useNavigate();
   const { theme } = useTheme();
+  const location = useLocation();
   const colors = theme?.colors || {};
+
+  const actionItems = [
+    { label: 'Members', to: '/members', icon: MembersIcon },
+    { label: 'Settings', to: '/settings', icon: SettingsIcon },
+  ];
 
   const handleLogout = async () => {
     try {
@@ -24,17 +30,11 @@ function Header({ title }) {
     navigate('/');
   };
 
-  const location = useLocation();
-  const actionItems = [
-    { label: 'Members', to: '/members', icon: MembersIcon },
-    { label: 'Settings', to: '/settings', icon: SettingsIcon },
-  ];
-
   return (
     <HeaderBar $background={colors.card} $border={colors.divider}>
       <Brand onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
         <Logo $logoBackground={colors.primaryButton} $logoColor={colors.text}>
-          <AtomLogo size={24} color={colors.text} />
+          <AtomLogo size={36} color={colors.text} />
         </Logo>
         <Title $color={colors.text}>{title || 'Ethos'}</Title>
       </Brand>

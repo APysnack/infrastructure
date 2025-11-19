@@ -2,11 +2,10 @@ import styled from 'styled-components';
 import { useTheme } from '../context/ThemeContext';
 
 const SelectorContainer = styled.div`
-  position: ${(p) => (p.$inline ? 'static' : 'absolute')};
-  top: ${(p) => (p.$inline ? 'auto' : '20px')};
-  right: ${(p) => (p.$inline ? 'auto' : '20px')};
-  z-index: 1000;
-  display: ${(p) => (p.$inline ? 'inline-block' : 'block')};
+  position: static;
+  top: auto;
+  right: auto;
+  display: inline-block;
 `;
 
 const Select = styled.select`
@@ -37,7 +36,7 @@ const Select = styled.select`
   }
 `;
 
-export const ThemeSelector = ({ inline = false, ariaLabel = 'Select theme' }) => {
+export const ThemeSelector = ({ inline = false }) => {
   const { currentTheme, switchTheme, availableThemes } = useTheme();
   const { colors } = useTheme().theme;
 
@@ -52,7 +51,6 @@ export const ThemeSelector = ({ inline = false, ariaLabel = 'Select theme' }) =>
   return (
     <SelectorContainer $inline={inline}>
       <Select
-        aria-label={ariaLabel}
         value={currentTheme}
         onChange={(e) => switchTheme(e.target.value)}
         $backgroundColor={colors.card}
