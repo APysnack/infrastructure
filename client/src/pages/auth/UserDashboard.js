@@ -9,26 +9,10 @@ import {
 } from './ThemeableDashboardComponents';
 
 function UserDashboard() {
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    try {
-      await logoutUser();
-      navigate('/', { replace: true });
-    } catch (error) {
-      console.error('Logout failed:', error);
-      navigate('/', { replace: true });
-    }
-  };
-
   return (
     <DashboardContainer>
-      <ThemeSelector />
       <DashboardCard>
         <DashboardTitle>Dashboard</DashboardTitle>
-        <LogoutButton onClick={handleLogout}>
-          Log Out
-        </LogoutButton>
       </DashboardCard>
     </DashboardContainer>
   );

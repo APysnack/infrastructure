@@ -30,7 +30,7 @@ const SignupForm = ({ onSwitchToLogin }) => {
     try {
       const data = await registerUser(email, password, passwordConfirmation);
       console.log('Signup response:', data);
-      
+
       if (data.code === 200 || data.data) {
         navigate('/members');
       }
@@ -42,7 +42,6 @@ const SignupForm = ({ onSwitchToLogin }) => {
 
   return (
     <Container>
-      <ThemeSelector />
       <Card>
         <Title>Create Account</Title>
         <Subtitle>Join us today</Subtitle>
@@ -59,7 +58,7 @@ const SignupForm = ({ onSwitchToLogin }) => {
               required
             />
           </FormGroup>
-          
+
           <FormGroup>
             <Input
               type="password"
@@ -69,7 +68,7 @@ const SignupForm = ({ onSwitchToLogin }) => {
               required
             />
           </FormGroup>
-          
+
           <FormGroup>
             <Input
               type="password"
@@ -80,9 +79,7 @@ const SignupForm = ({ onSwitchToLogin }) => {
             />
           </FormGroup>
 
-          <PrimaryButton type="submit">
-            Sign Up
-          </PrimaryButton>
+          <PrimaryButton type="submit">Sign Up</PrimaryButton>
         </Form>
 
         <Divider>

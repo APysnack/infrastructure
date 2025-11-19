@@ -14,7 +14,7 @@ const themes = {
   'modern-slate': modernSlateTheme,
   'minimalist-blue': minimalistBlueTheme,
   'modern-teal': modernTealTheme,
-  'purple': purpleTheme,
+  'purple-theme': purpleTheme,
 };
 
 export const ThemeProvider = ({ children }) => {
@@ -38,7 +38,9 @@ export const ThemeProvider = ({ children }) => {
   };
 
   return (
-    <ThemeContext.Provider value={{ currentTheme, theme, switchTheme, availableThemes: Object.keys(themes) }}>
+    <ThemeContext.Provider
+      value={{ currentTheme, theme, switchTheme, availableThemes: Object.keys(themes) }}
+    >
       {children}
     </ThemeContext.Provider>
   );

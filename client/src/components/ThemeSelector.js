@@ -2,41 +2,41 @@ import styled from 'styled-components';
 import { useTheme } from '../context/ThemeContext';
 
 const SelectorContainer = styled.div`
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
+  position: static;
+  top: auto;
+  right: auto;
+  display: inline-block;
 `;
 
 const Select = styled.select`
   padding: 8px 12px;
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
   font-family: inherit;
-  transition: all 0.2s;
+  transition: all 0.18s;
 
   border-color: ${(props) => props.$borderColor};
   background-color: ${(props) => props.$backgroundColor};
   color: ${(props) => props.$textColor};
 
   &:hover {
-    opacity: 0.9;
+    opacity: 0.98;
   }
 
   &:focus {
     outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.04);
   }
 
   option {
-    background-color: #2c2f33;
-    color: #dcddde;
+    /* keep default colors so the native select shows readable options */
   }
 `;
 
-export const ThemeSelector = () => {
+export const ThemeSelector = ({ inline = false }) => {
   const { currentTheme, switchTheme, availableThemes } = useTheme();
   const { colors } = useTheme().theme;
 
@@ -45,11 +45,11 @@ export const ThemeSelector = () => {
     'modern-slate': 'Modern Slate',
     'minimalist-blue': 'Minimalist Blue',
     'modern-teal': 'Modern Teal',
-    'purple': 'Purple',
+    'purple-theme': 'Purple Theme',
   };
 
   return (
-    <SelectorContainer>
+    <SelectorContainer $inline={inline}>
       <Select
         value={currentTheme}
         onChange={(e) => switchTheme(e.target.value)}
