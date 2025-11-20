@@ -26,7 +26,11 @@ class GraphqlController < ApplicationController
     
     # Handle logout from mutations
     if context[:should_clear_auth]
-      cookies.delete(:_auth_token, same_site: :lax)
+      cookies.delete(:_auth_token, 
+        httponly: true,
+        secure: Rails.env.production?,
+        same_site: :lax
+      )
     end
     
     render json: result

@@ -12,7 +12,6 @@ module Mutations
           success: false,
           message: 'Email already exists',
           user: nil,
-          token: nil
         }
       end
 
@@ -29,14 +28,12 @@ module Mutations
           success: true,
           message: 'Account created successfully',
           user: user,
-          token: token
         }
       else
         {
           success: false,
           message: user.errors.full_messages.join(', '),
           user: nil,
-          token: nil
         }
       end
     end

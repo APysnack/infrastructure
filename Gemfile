@@ -14,6 +14,7 @@ gem 'graphiql-rails', '~> 1.8'
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 gem "rack-cors"
+gem "rack-attack", "~> 6.7"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]

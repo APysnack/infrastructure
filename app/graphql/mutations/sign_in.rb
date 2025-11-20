@@ -19,14 +19,12 @@ module Mutations
           success: true,
           message: 'Signed in successfully',
           user: user,
-          token: token
         }
       else
         {
           success: false,
           message: 'Invalid email or password',
           user: nil,
-          token: nil
         }
       end
     end
