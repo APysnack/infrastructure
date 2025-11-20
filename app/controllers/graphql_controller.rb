@@ -2,9 +2,13 @@ class GraphqlController < ApplicationController
   def execute
     # Apollo Client sends variables as a Hash-like object
     # We need to permit GraphQL variables through strong parameters
-    variables = params.permit(:query, :operationName, variables: {})[:variables]&.to_h || {}
-    query = params[:query]
-    operation_name = params[:operationName]
+    permitted_params = params.permit(:query, :operationName, 
+                                 variables: {}, 
+                                 extensions: {},
+                                 graphql: [:query, :operationName, { variables: {} }, { extensions: {} }])
+    query = permitted_params[:query]
+    operation_name = permitted_params[:operationName]
+    variables = permitted_params[:variables]&.to_h || {}
 
     context = {
       current_user: current_user,
@@ -20,7 +24,7 @@ class GraphqlController < ApplicationController
         httponly: true,
         secure: Rails.env.production?,
         same_site: :lax,
-        expires: 1.year.from_now
+        expires: 3.months.from_now
       }
     end
     

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client/react';
 import { SIGN_IN_MUTATION, GET_CURRENT_USER } from '../../utils/graphqlQueries';
-import ThemeSelector from '../../components/ThemeSelector';
 import {
   Container,
   Card,

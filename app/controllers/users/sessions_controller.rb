@@ -38,7 +38,7 @@ class Users::SessionsController < Devise::SessionsController
         httponly: true,
         secure: Rails.env.production?,
         same_site: :lax,
-        expires: 1.year.from_now
+        expires: 3.months.from_now
       }
       
       render json: {
