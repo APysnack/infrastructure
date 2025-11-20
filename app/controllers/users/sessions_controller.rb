@@ -32,7 +32,14 @@ class Users::SessionsController < Devise::SessionsController
     if resource.persisted?
       token = Warden::JWTAuth::UserEncoder.new.call(resource, :user, nil).first
       
-      response.headers['Authorization'] = "Bearer #{token}"
+      # Set token as HTTP-only, Secure cookie
+      cookies.encrypted[:_auth_token] = {
+        value: token,
+        httponly: true,
+        secure: Rails.env.production?,
+        same_site: :lax,
+        expires: 1.year.from_now
+      }
       
       render json: {
         code: 200,
@@ -48,6 +55,9 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def respond_to_on_destroy
+    # Clear the auth token cookie
+    cookies.delete(:_auth_token, same_site: :lax)
+    
     if current_user
       render json: {
         status: 200, 

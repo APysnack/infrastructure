@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../../utils/api';
-import ThemeSelector from '../../components/ThemeSelector';
 import {
   Container,
   Card,
