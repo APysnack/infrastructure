@@ -4,12 +4,8 @@ export const request = async (endpoint, method, payload = null) => {
   const options = {
     method,
     headers: { 'Content-Type': 'application/json' },
+    credentials: 'include', // Include cookies with every request
   };
-
-  const token = getToken();
-  if (token) {
-    options.headers['Authorization'] = `Bearer ${token}`;
-  }
 
   if (payload) {
     options.body = JSON.stringify(payload);
@@ -17,11 +13,6 @@ export const request = async (endpoint, method, payload = null) => {
 
   try {
     const res = await fetch(`${API_BASE_URL}${endpoint}`, options);
-    const authHeader = res.headers.get('Authorization');
-    if (authHeader) {
-      const token = authHeader.replace('Bearer ', '');
-      setToken(token);
-    }
 
     const contentType = res.headers.get('content-type');
     const data = contentType?.includes('application/json')
@@ -38,11 +29,6 @@ export const request = async (endpoint, method, payload = null) => {
     throw err;
   }
 };
-
-// Token storage and retrieval
-export const getToken = () => localStorage.getItem('authToken');
-export const setToken = (token) => localStorage.setItem('authToken', token);
-export const clearToken = () => localStorage.removeItem('authToken');
 
 export const get = (endpoint) => request(endpoint, 'GET');
 export const post = (endpoint, payload) => request(endpoint, 'POST', payload);

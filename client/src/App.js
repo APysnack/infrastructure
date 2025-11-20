@@ -5,7 +5,6 @@ import LoginPage from './pages/auth/LoginPage';
 import UserDashboard from './pages/auth/UserDashboard';
 import ProtectedRoute from './ProtectedRoute';
 import SettingsPage from './pages/SettingsPage';
-import { isAuthenticated } from './utils/api';
 import Header from './components/Header';
 
 function App() {
@@ -14,24 +13,9 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route
-            path="/"
-            element={
-              isAuthenticated() ? (
-                <Navigate to="/members" replace />
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            }
-          />
-          <Route
-            path="/login"
-            element={isAuthenticated() ? <Navigate to="/members" replace /> : <LoginPage />}
-          />
-          <Route
-            path="/register"
-            element={isAuthenticated() ? <Navigate to="/members" replace /> : <LoginPage />}
-          />
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<LoginPage />} />
           <Route path="/members" element={<ProtectedRoute element={<UserDashboard />} />} />
           <Route path="/settings" element={<ProtectedRoute element={<SettingsPage />} />} />
         </Routes>
