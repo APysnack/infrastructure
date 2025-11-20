@@ -2,7 +2,7 @@ import { useCurrentUser } from './utils/graphqlQueries';
 import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ element }) => {
-  const { data, loading, error } = useCurrentUser();
+  const { data, loading } = useCurrentUser();
   const user = data?.currentUser;
 
   if (loading) {
