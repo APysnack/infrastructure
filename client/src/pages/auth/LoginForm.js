@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../utils/api';
+import { useMutation } from '@apollo/client/react';
+import { SIGN_IN_MUTATION, GET_CURRENT_USER } from '../../utils/graphqlQueries';
 import ThemeSelector from '../../components/ThemeSelector';
 import {
   Container,
@@ -22,20 +23,33 @@ const LoginForm = ({ onSwitchToSignup }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const [signIn, { loading }] = useMutation(SIGN_IN_MUTATION, {
+    refetchQueries: [{ query: GET_CURRENT_USER }],
+    awaitRefetchQueries: true,
+    onCompleted: (data) => {
+      if (data.signIn.success) {
+        navigate('/members');
+      } else {
+        setError(data.signIn.message || 'Failed to sign in');
+      }
+    },
+    onError: (err) => {
+      console.error('Sign in error:', err);
+      setError(err.message || 'An error occurred during sign in');
+    },
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
     try {
-      const data = await loginUser(email, password);
-      console.log('Login response:', data);
-
-      if (data.code === 200 || data.data) {
-        navigate('/members');
-      }
+      await signIn({
+        variables: { email, password },
+      });
     } catch (err) {
-      console.error('Error logging in:', err);
-      setError(err.message || 'Failed to log in. Please try again.');
+      console.error('Error signing in:', err);
+      setError(err.message || 'Failed to sign in. Please try again.');
     }
   };
 
@@ -55,6 +69,7 @@ const LoginForm = ({ onSwitchToSignup }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={loading}
             />
           </FormGroup>
 
@@ -65,17 +80,20 @@ const LoginForm = ({ onSwitchToSignup }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={loading}
             />
           </FormGroup>
 
-          <PrimaryButton type="submit">Log In</PrimaryButton>
+          <PrimaryButton type="submit" disabled={loading}>
+            {loading ? 'Signing in...' : 'Log In'}
+          </PrimaryButton>
         </Form>
 
         <Divider>
           <span>or</span>
         </Divider>
 
-        <SecondaryButton type="button" onClick={onSwitchToSignup}>
+        <SecondaryButton type="button" onClick={onSwitchToSignup} disabled={loading}>
           Don't have an account? Sign up here
         </SecondaryButton>
       </Card>

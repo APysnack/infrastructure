@@ -1,11 +1,12 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import LoginPage from './pages/auth/LoginPage';
 import UserDashboard from './pages/auth/UserDashboard';
 import ProtectedRoute from './ProtectedRoute';
 import SettingsPage from './pages/SettingsPage';
 import Header from './components/Header';
+import HomePage from './pages/HomePage';
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<LoginPage />} />
           <Route path="/members" element={<ProtectedRoute element={<UserDashboard />} />} />

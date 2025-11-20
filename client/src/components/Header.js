@@ -1,7 +1,8 @@
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useMutation } from '@apollo/client/react';
 import { LogoutButton } from '../pages/auth/ThemeableDashboardComponents';
 import { useTheme } from '../context/ThemeContext';
-import { logoutUser } from '../utils/api';
+import { SIGN_OUT_MUTATION, GET_CURRENT_USER } from '../utils/graphqlQueries';
 import { HeaderBar, Brand, Logo, Title, Actions, ActionItem } from './Header.styles';
 import { MembersIcon, LogoutIcon, SettingsIcon, AtomLogo } from './icons';
 
@@ -11,6 +12,18 @@ function Header({ title }) {
   const location = useLocation();
   const colors = theme?.colors || {};
 
+  const [signOut, { loading: isLoggingOut }] = useMutation(SIGN_OUT_MUTATION, {
+    refetchQueries: [{ query: GET_CURRENT_USER }],
+    awaitRefetchQueries: true,
+    onCompleted: () => {
+      navigate('/', { replace: true });
+    },
+    onError: (error) => {
+      console.error('Logout failed:', error);
+      navigate('/', { replace: true });
+    },
+  });
+
   const actionItems = [
     { label: 'Members', to: '/members', icon: MembersIcon },
     { label: 'Settings', to: '/settings', icon: SettingsIcon },
@@ -18,10 +31,9 @@ function Header({ title }) {
 
   const handleLogout = async () => {
     try {
-      await logoutUser();
+      await signOut();
     } catch (error) {
-      console.error('Logout failed:', error);
-    } finally {
+      console.error('Error during logout:', error);
       navigate('/', { replace: true });
     }
   };
@@ -58,7 +70,7 @@ function Header({ title }) {
             </ActionItem>
           );
         })}
-        <LogoutButton onClick={handleLogout} title="Log out">
+        <LogoutButton onClick={handleLogout} disabled={isLoggingOut} title="Log out">
           <LogoutIcon color="white" />
         </LogoutButton>
       </Actions>

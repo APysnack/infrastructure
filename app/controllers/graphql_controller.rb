@@ -1,14 +1,38 @@
 class GraphqlController < ApplicationController
   def execute
-    variables = ensure_hash(params[:variables])
+    # Apollo Client sends variables as a Hash-like object
+    # We need to permit GraphQL variables through strong parameters
+    variables = params.permit(:query, :operationName, variables: {})[:variables]&.to_h || {}
     query = params[:query]
     operation_name = params[:operationName]
 
     context = {
-      current_user: current_user
+      current_user: current_user,
+      cookies: cookies
     }
 
     result = InfrastructureSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    
+    # Handle auth token from mutations
+    if context[:auth_token]
+      cookies.encrypted[:_auth_token] = {
+        value: context[:auth_token],
+        httponly: true,
+        secure: Rails.env.production?,
+        same_site: :lax,
+        expires: 1.year.from_now
+      }
+    end
+    
+    # Handle logout from mutations
+    if context[:should_clear_auth]
+      cookies.delete(:_auth_token, 
+        httponly: true,
+        secure: Rails.env.production?,
+        same_site: :lax
+      )
+    end
+    
     render json: result
   rescue StandardError => e
     handle_error_in_development(e)
