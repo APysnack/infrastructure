@@ -1,4 +1,4 @@
-import { post, get, put, patch, del, setToken, clearToken, getToken } from './request';
+import { post, get, put, patch, del } from './request';
 
 export const registerUser = async (email, password, passwordConfirmation) => {
   const payload = {
@@ -21,20 +21,9 @@ export const loginUser = async (email, password) => {
 };
 
 export const logoutUser = async () => {
-  try {
-    await del('/logout');
-  } finally {
-    clearToken();
-  }
+  await del('/logout');
 };
 
 export const getCurrentUser = async () => {
-  if (!getToken()) {
-    return null;
-  }
   return get('/current_user');
-};
-
-export const isAuthenticated = () => {
-  return !!getToken();
 };

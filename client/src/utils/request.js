@@ -30,19 +30,6 @@ export const request = async (endpoint, method, payload = null) => {
   }
 };
 
-// Token storage using cookies (HTTP-only cookies are managed by the server)
-// These functions are kept for backwards compatibility but are no longer used
-export const getToken = () => {
-  // Since HTTP-only cookies can't be accessed from JS, we check if user has active session
-  return 'cookie-based-auth'; // Return truthy to indicate potential auth
-};
-export const setToken = (token) => {
-  // Token setting is now handled by the server via Set-Cookie header
-};
-export const clearToken = () => {
-  // Cookie clearing is now handled by the server on logout
-};
-
 export const get = (endpoint) => request(endpoint, 'GET');
 export const post = (endpoint, payload) => request(endpoint, 'POST', payload);
 export const put = (endpoint, payload) => request(endpoint, 'PUT', payload);
