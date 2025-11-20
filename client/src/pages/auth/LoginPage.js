@@ -7,15 +7,7 @@ const LoginPage = () => {
   const location = useLocation();
   const [showSignup, setShowSignup] = useState(location.pathname === '/register');
 
-  return (
-    <>
-      {showSignup ? (
-        <SignupForm onSwitchToLogin={() => setShowSignup(false)} />
-      ) : (
-        <LoginForm onSwitchToSignup={() => setShowSignup(true)} />
-      )}
-    </>
-  );
+  return <>{showSignup ? <SignupForm /> : <LoginForm />}</>;
 };
 
 export default LoginPage;
