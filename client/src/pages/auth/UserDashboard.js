@@ -1,12 +1,4 @@
-import { useNavigate } from 'react-router-dom';
-import { logoutUser } from '../../utils/api';
-import ThemeSelector from '../../components/ThemeSelector';
-import {
-  DashboardContainer,
-  DashboardCard,
-  DashboardTitle,
-  LogoutButton,
-} from './ThemeableDashboardComponents';
+import { DashboardContainer, DashboardCard, DashboardTitle } from './ThemeableDashboardComponents';
 
 function UserDashboard() {
   return (
