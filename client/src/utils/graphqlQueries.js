@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { useQuery, useMutation } from '@apollo/client/react';
+import { useQuery } from '@apollo/client/react';
 
 export const GET_CURRENT_USER = gql`
   query GetCurrentUser {
@@ -8,24 +8,6 @@ export const GET_CURRENT_USER = gql`
       email
       createdAt
       updatedAt
-    }
-  }
-`;
-
-export const GET_USERS = gql`
-  query GetUsers {
-    users {
-      id
-      email
-    }
-  }
-`;
-
-export const GET_USER = gql`
-  query GetUser($id: ID!) {
-    user(id: $id) {
-      id
-      email
     }
   }
 `;
@@ -70,29 +52,6 @@ export const SIGN_UP_MUTATION = gql`
     }
   }
 `;
-
-export const useUsers = () => {
-  return useQuery(GET_USERS);
-};
-
-export const useUser = (userId) => {
-  return useQuery(GET_USER, {
-    variables: { id: userId },
-    skip: !userId, // Skip query if userId is not provided
-  });
-};
-
-export const useSignIn = () => {
-  return useMutation(SIGN_IN_MUTATION);
-};
-
-export const useSignOut = () => {
-  return useMutation(SIGN_OUT_MUTATION);
-};
-
-export const useSignUp = () => {
-  return useMutation(SIGN_UP_MUTATION);
-};
 
 export const useCurrentUser = () => {
   return useQuery(GET_CURRENT_USER);
