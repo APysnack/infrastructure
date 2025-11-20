@@ -5,5 +5,10 @@ module Types
 
     field :user, resolver: Queries::User
     field :users, resolver: Queries::Users
+    field :current_user, Types::Models::UserType, null: true, description: "Get the current authenticated user"
+
+    def current_user
+      context[:current_user]
+    end
   end
 end

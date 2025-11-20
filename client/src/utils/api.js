@@ -1,15 +1,10 @@
-import { post, get, put, patch, del } from './request';
+import { get } from './request';
+import { useCurrentUser } from './graphqlQueries';
 
-export const registerUser = async (email, password, passwordConfirmation) => {
-  const payload = {
-    user: { email, password, password_confirmation: passwordConfirmation },
-  };
-
-  const response = await post('/signup', payload);
-
-  return response;
-};
-
-export const getCurrentUser = async () => {
+// Legacy REST API function - kept for backward compatibility if needed
+export const getCurrentUserRest = async () => {
   return get('/current_user');
 };
+
+// GraphQL hook for getting current user
+export const useGetCurrentUser = useCurrentUser;

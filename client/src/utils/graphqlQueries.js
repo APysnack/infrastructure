@@ -1,6 +1,17 @@
 import { gql } from '@apollo/client';
 import { useQuery, useMutation } from '@apollo/client/react';
 
+export const GET_CURRENT_USER = gql`
+  query GetCurrentUser {
+    currentUser {
+      id
+      email
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 export const GET_USERS = gql`
   query GetUsers {
     users {
@@ -52,7 +63,10 @@ export const SIGN_UP_MUTATION = gql`
       user {
         id
         email
+        createdAt
+        updatedAt
       }
+      token
     }
   }
 `;
@@ -78,4 +92,8 @@ export const useSignOut = () => {
 
 export const useSignUp = () => {
   return useMutation(SIGN_UP_MUTATION);
+};
+
+export const useCurrentUser = () => {
+  return useQuery(GET_CURRENT_USER);
 };

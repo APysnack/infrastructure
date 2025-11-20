@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { registerUser } from '../../utils/api';
+import { useMutation } from '@apollo/client/react';
+import { SIGN_UP_MUTATION } from '../../utils/graphqlQueries';
 import {
   Container,
   Card,
@@ -22,17 +23,34 @@ const SignupForm = ({ onSwitchToLogin }) => {
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [error, setError] = useState('');
 
+  const [signUp, { loading }] = useMutation(SIGN_UP_MUTATION, {
+    onCompleted: (data) => {
+      if (data.signUp.success) {
+        navigate('/members');
+      } else {
+        setError(data.signUp.message || 'Failed to sign up');
+      }
+    },
+    onError: (err) => {
+      console.error('Sign up error:', err);
+      setError(err.message || 'An error occurred during sign up');
+    },
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
-    try {
-      const data = await registerUser(email, password, passwordConfirmation);
-      console.log('Signup response:', data);
+    // Validate passwords match
+    if (password !== passwordConfirmation) {
+      setError('Passwords do not match');
+      return;
+    }
 
-      if (data.code === 200 || data.data) {
-        navigate('/members');
-      }
+    try {
+      await signUp({
+        variables: { email, password, passwordConfirmation },
+      });
     } catch (err) {
       console.error('Error signing up:', err);
       setError(err.message || 'Failed to sign up. Please try again.');
@@ -55,6 +73,7 @@ const SignupForm = ({ onSwitchToLogin }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={loading}
             />
           </FormGroup>
 
@@ -65,6 +84,7 @@ const SignupForm = ({ onSwitchToLogin }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={loading}
             />
           </FormGroup>
 
@@ -75,17 +95,20 @@ const SignupForm = ({ onSwitchToLogin }) => {
               value={passwordConfirmation}
               onChange={(e) => setPasswordConfirmation(e.target.value)}
               required
+              disabled={loading}
             />
           </FormGroup>
 
-          <PrimaryButton type="submit">Sign Up</PrimaryButton>
+          <PrimaryButton type="submit" disabled={loading}>
+            {loading ? 'Signing up...' : 'Sign Up'}
+          </PrimaryButton>
         </Form>
 
         <Divider>
           <span>or</span>
         </Divider>
 
-        <SecondaryButton type="button" onClick={onSwitchToLogin}>
+        <SecondaryButton type="button" onClick={onSwitchToLogin} disabled={loading}>
           Already registered? Log in here
         </SecondaryButton>
       </Card>
