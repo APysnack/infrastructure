@@ -11,6 +11,7 @@ gem 'devise-jwt', '~> 0.12.1'
 gem 'jsonapi-serializer'
 gem 'graphql', '~> 2.1'
 gem 'graphiql-rails', '~> 1.8'
+gem 'rolify', '~> 6.0'
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 gem "rack-cors"
