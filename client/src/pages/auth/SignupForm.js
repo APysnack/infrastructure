@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client/react';
-import { SIGN_UP_MUTATION } from '../../utils/graphqlQueries';
+import { SIGN_UP_MUTATION, GET_CURRENT_USER } from '../../utils/graphqlQueries';
 import {
   Container,
   Card,
@@ -24,6 +24,8 @@ const SignupForm = ({ onSwitchToLogin }) => {
   const [error, setError] = useState('');
 
   const [signUp, { loading }] = useMutation(SIGN_UP_MUTATION, {
+    refetchQueries: [{ query: GET_CURRENT_USER }],
+    awaitRefetchQueries: true,
     onCompleted: (data) => {
       if (data.signUp.success) {
         navigate('/members');

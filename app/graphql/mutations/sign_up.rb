@@ -7,7 +7,6 @@ module Mutations
     argument :password_confirmation, String, required: true, description: "Password confirmation"
 
     def resolve(email:, password:, password_confirmation:)
-      # Check if user already exists
       if User.exists?(email: email)
         return {
           success: false,
@@ -17,7 +16,6 @@ module Mutations
         }
       end
 
-      # Create new user
       user = User.new(email: email, password: password, password_confirmation: password_confirmation)
       
       if user.save

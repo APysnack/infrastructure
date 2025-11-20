@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client/react';
-import { SIGN_IN_MUTATION } from '../../utils/graphqlQueries';
+import { SIGN_IN_MUTATION, GET_CURRENT_USER } from '../../utils/graphqlQueries';
 import ThemeSelector from '../../components/ThemeSelector';
 import {
   Container,
@@ -24,6 +24,8 @@ const LoginForm = ({ onSwitchToSignup }) => {
   const [error, setError] = useState('');
 
   const [signIn, { loading }] = useMutation(SIGN_IN_MUTATION, {
+    refetchQueries: [{ query: GET_CURRENT_USER }],
+    awaitRefetchQueries: true,
     onCompleted: (data) => {
       if (data.signIn.success) {
         navigate('/members');
