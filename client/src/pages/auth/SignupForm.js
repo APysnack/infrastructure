@@ -16,7 +16,7 @@ import {
   Alert,
 } from './ThemeableComponents';
 
-const SignupForm = ({ onSwitchToLogin }) => {
+const SignupForm = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -109,7 +109,7 @@ const SignupForm = ({ onSwitchToLogin }) => {
           <span>or</span>
         </Divider>
 
-        <SecondaryButton type="button" onClick={onSwitchToLogin} disabled={loading}>
+        <SecondaryButton type="button" onClick={() => navigate('/login')} disabled={loading}>
           Already registered? Log in here
         </SecondaryButton>
       </Card>
