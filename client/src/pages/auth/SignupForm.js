@@ -43,7 +43,6 @@ const SignupForm = ({ onSwitchToLogin }) => {
     e.preventDefault();
     setError('');
 
-    // Validate passwords match
     if (password !== passwordConfirmation) {
       setError('Passwords do not match');
       return;

@@ -44,7 +44,7 @@ module Infrastructure
     # Add cookies middleware back for authentication
     config.middleware.use ActionDispatch::Cookies
     
-    # Add Rack::Attack for rate limiting (insert at beginning)
+    # Added for rate limiting
     config.middleware.use Rack::Attack
   end
 end

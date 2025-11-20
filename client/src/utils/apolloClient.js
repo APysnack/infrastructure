@@ -5,19 +5,7 @@ const httpLink = new HttpLink({
   credentials: 'include', // Include cookies for authentication
 });
 
-// Optional: Add a middleware link to handle authentication headers if needed
 const authLink = new ApolloLink((operation, forward) => {
-  // You can add authentication headers here if needed
-  // For example, if you're using JWT tokens stored in localStorage:
-  // const token = localStorage.getItem('authToken');
-  // if (token) {
-  //   operation.setContext({
-  //     headers: {
-  //       authorization: `Bearer ${token}`,
-  //     },
-  //   });
-  // }
-
   return forward(operation);
 });
 
