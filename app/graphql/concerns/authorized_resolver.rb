@@ -26,7 +26,7 @@ module AuthorizedResolver
 
   def authorize_admin_or_member!
     ensure_authenticated!
-    raise GraphQL::ExecutionError, "Not authorized" unless current_user.has_role?(:admin, :member)
+    raise GraphQL::ExecutionError, "Not authorized" unless current_user.has_role?(:admin) || current_user.has_role?(:member)
     current_user
   end
 end
