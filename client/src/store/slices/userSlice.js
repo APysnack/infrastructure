@@ -7,6 +7,12 @@ import {
 } from '../../utils/graphqlQueries';
 import client from '../../utils/apolloClient';
 
+const initialState = {
+  user: null,
+  loading: true,
+  error: null,
+};
+
 // Async thunk for signing in
 export const signInUser = createAsyncThunk(
   'user/signIn',
@@ -70,7 +76,6 @@ export const signOutUser = createAsyncThunk('user/signOut', async (_, { rejectWi
   }
 });
 
-// Async thunk for fetching current user
 export const fetchCurrentUser = createAsyncThunk(
   'user/fetchCurrentUser',
   async (_, { rejectWithValue }) => {
@@ -87,21 +92,22 @@ export const fetchCurrentUser = createAsyncThunk(
   }
 );
 
-const initialState = {
-  user: null,
-  loading: true,
-  error: null,
-};
-
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    clearError: (state) => {
-      state.error = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
+    // Fetch Current User
+    builder
+      .addCase(fetchCurrentUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.error = null;
+      });
+
     // Sign In
     builder
       .addCase(signInUser.pending, (state) => {
@@ -148,27 +154,9 @@ const userSlice = createSlice({
       .addCase(signOutUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        // Still clear user on logout error
         state.user = null;
-      });
-
-    // Fetch Current User
-    builder
-      .addCase(fetchCurrentUser.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload;
-        state.error = null;
-      })
-      .addCase(fetchCurrentUser.rejected, (state) => {
-        state.loading = false;
-        state.user = null;
-        state.error = null;
       });
   },
 });
 
-export const { clearError } = userSlice.actions;
 export default userSlice.reducer;

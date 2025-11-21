@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { signInUser, clearError } from '../../store/slices/userSlice';
+import { signInUser } from '../../store/slices/userSlice';
 import {
   Container,
   Card,
@@ -26,7 +26,6 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(clearError());
 
     const result = await dispatch(signInUser({ email, password }));
 
