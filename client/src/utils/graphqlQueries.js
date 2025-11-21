@@ -5,6 +5,7 @@ export const GET_CURRENT_USER = gql`
     currentUser {
       id
       email
+      settings
       createdAt
       updatedAt
     }
@@ -48,6 +49,22 @@ export const SIGN_UP_MUTATION = gql`
         updatedAt
       }
       token
+    }
+  }
+`;
+
+export const UPDATE_SETTINGS_MUTATION = gql`
+  mutation UpdateSettings($settings: JSON!) {
+    updateSettings(settings: $settings) {
+      success
+      message
+      user {
+        id
+        email
+        settings
+        createdAt
+        updatedAt
+      }
     }
   }
 `;

@@ -1,4 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { useMutation } from '@apollo/client/react';
+import { UPDATE_SETTINGS_MUTATION } from '../utils/graphqlQueries';
 import {
   discordDarkTheme,
   modernSlateTheme,
@@ -31,9 +33,17 @@ export const ThemeProvider = ({ children }) => {
 
   const theme = themes[currentTheme];
 
+  const [updateSettings] = useMutation(UPDATE_SETTINGS_MUTATION);
+
   const switchTheme = (themeName) => {
     if (themes[themeName]) {
       setCurrentTheme(themeName);
+
+      try {
+        updateSettings({ variables: { settings: { theme: themeName } } });
+      } catch (e) {
+        // console.error('Failed to persist theme', e);
+      }
     }
   };
 
