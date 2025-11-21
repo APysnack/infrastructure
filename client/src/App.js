@@ -1,12 +1,13 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
-import LoginPage from './pages/auth/LoginPage';
+import LoginForm from './pages/auth/LoginForm';
+import SignupForm from './pages/auth/SignupForm/SignupForm';
 import UserDashboard from './pages/auth/UserDashboard/UserDashboard';
-import ProtectedRoute from './ProtectedRoute';
+import ProtectedRoute from './pages/auth/ProtectedRoute';
 import SettingsPage from './pages/SettingsPage';
 import Header from './components/Header';
-import HomePage from './pages/HomePage';
+import AuthRoute from './pages/auth/AuthRoute';
 
 function App() {
   return (
@@ -14,11 +15,11 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<LoginPage />} />
+          <Route path="/login" element={<AuthRoute element={<LoginForm />} />} />
+          <Route path="/register" element={<AuthRoute element={<SignupForm />} />} />
           <Route path="/members" element={<ProtectedRoute element={<UserDashboard />} />} />
           <Route path="/settings" element={<ProtectedRoute element={<SettingsPage />} />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </Router>
     </ThemeProvider>
