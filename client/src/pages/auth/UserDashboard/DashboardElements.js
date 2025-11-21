@@ -4,7 +4,7 @@ import {
   DashboardTitle as StyledDashboardTitle,
   LogoutButton as StyledLogoutButton,
 } from './UserDashboard.styles';
-import { useTheme } from '../../context/ThemeContext';
+import { useTheme } from '../../../context/ThemeContext';
 
 export const DashboardContainer = (props) => {
   const { theme } = useTheme();
