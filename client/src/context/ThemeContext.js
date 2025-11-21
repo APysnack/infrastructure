@@ -1,6 +1,6 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { useMutation } from '@apollo/client/react';
-import { UPDATE_SETTINGS_MUTATION } from '../utils/graphqlQueries';
+import { createContext, useState, useEffect, useContext } from 'react';
+import { useMutation, useQuery } from '@apollo/client/react';
+import { UPDATE_SETTINGS_MUTATION, GET_CURRENT_USER } from '../utils/graphqlQueries';
 import {
   discordDarkTheme,
   modernSlateTheme,
@@ -11,6 +11,8 @@ import {
 
 export const ThemeContext = createContext();
 
+ThemeContext.displayName = 'ThemeContext';
+
 const themes = {
   'discord-dark': discordDarkTheme,
   'modern-slate': modernSlateTheme,
@@ -20,36 +22,61 @@ const themes = {
 };
 
 export const ThemeProvider = ({ children }) => {
-  const [currentTheme, setCurrentTheme] = useState(() => {
-    // Load theme from localStorage, default to modern-slate
-    const saved = localStorage.getItem('selectedTheme');
-    return saved || 'modern-slate';
-  });
+  const [currentTheme, setCurrentTheme] = useState(null);
+  const [updateSettings] = useMutation(UPDATE_SETTINGS_MUTATION);
+  const { data } = useQuery(GET_CURRENT_USER, { fetchPolicy: 'cache-and-network' });
+  const theme = themes[currentTheme] || modernSlateTheme;
 
   useEffect(() => {
-    // Save theme selection to localStorage
-    localStorage.setItem('selectedTheme', currentTheme);
-  }, [currentTheme]);
-
-  const theme = themes[currentTheme];
-
-  const [updateSettings] = useMutation(UPDATE_SETTINGS_MUTATION);
-
-  const switchTheme = (themeName) => {
-    if (themes[themeName]) {
-      setCurrentTheme(themeName);
-
-      try {
-        updateSettings({ variables: { settings: { theme: themeName } } });
-      } catch (e) {
-        // console.error('Failed to persist theme', e);
+    const user = data && data.currentUser;
+    if (user && user.settings && user.settings.theme) {
+      const themeFromUser = user.settings.theme;
+      if (themes[themeFromUser] && themeFromUser !== currentTheme) {
+        setCurrentTheme(themeFromUser);
+        return;
       }
     }
-  };
+
+    if (currentTheme === null) {
+      try {
+        const saved = localStorage.getItem('selectedTheme');
+        setCurrentTheme(saved || 'modern-slate');
+      } catch (e) {
+        setCurrentTheme('modern-slate');
+      }
+    }
+  }, [data, currentTheme]);
+
+  useEffect(() => {
+    if (currentTheme == null) return;
+    try {
+      localStorage.setItem('selectedTheme', currentTheme);
+    } catch (e) {
+      // ignore storage errors
+    }
+  }, [currentTheme]);
+
+  async function switchTheme(themeName) {
+    if (!themes[themeName]) return;
+    setCurrentTheme(themeName);
+    try {
+      await updateSettings({ variables: { settings: { theme: themeName } } });
+    } catch (e) {
+      // log so persistence issues are visible during development
+      // (no user-facing UI change here)
+      // eslint-disable-next-line no-console
+      console.warn('Failed to persist theme setting:', e);
+    }
+  }
 
   return (
     <ThemeContext.Provider
-      value={{ currentTheme, theme, switchTheme, availableThemes: Object.keys(themes) }}
+      value={{
+        currentTheme,
+        theme,
+        switchTheme,
+        availableThemes: Object.keys(themes),
+      }}
     >
       {children}
     </ThemeContext.Provider>
@@ -57,7 +84,7 @@ export const ThemeProvider = ({ children }) => {
 };
 
 export const useTheme = () => {
-  const context = React.useContext(ThemeContext);
+  const context = useContext(ThemeContext);
   if (!context) {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
