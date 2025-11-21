@@ -17,6 +17,7 @@ export const SettingsProvider = ({ children }) => {
     }
   }, [data]);
 
+  // might need to be modified in order to merge deeply nested structs
   const mergeSettings = (current = {}, updates = {}) => {
     return { ...current, ...updates };
   };
