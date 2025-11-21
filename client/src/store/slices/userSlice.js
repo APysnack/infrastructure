@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { useQuery } from '@apollo/client/react';
 import {
   GET_CURRENT_USER,
   SIGN_IN_MUTATION,

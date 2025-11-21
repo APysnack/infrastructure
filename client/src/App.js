@@ -1,6 +1,9 @@
 import './App.css';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
+import { fetchCurrentUser } from './store/slices/userSlice';
 import LoginForm from './pages/auth/LoginForm';
 import SignupForm from './pages/auth/SignupForm/SignupForm';
 import UserDashboard from './pages/auth/UserDashboard/UserDashboard';
@@ -10,6 +13,18 @@ import Header from './components/Header';
 import AuthRoute from './pages/auth/AuthRoute';
 
 function App() {
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.user.loading);
+
+  useEffect(() => {
+    // Fetch current user once on app mount
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <ThemeProvider>
       <Router>

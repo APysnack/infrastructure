@@ -28,7 +28,6 @@ const SignupForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(clearError());
     setValidationError('');
 
     if (password !== passwordConfirmation) {

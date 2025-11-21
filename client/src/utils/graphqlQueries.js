@@ -52,7 +52,3 @@ export const SIGN_UP_MUTATION = gql`
     }
   }
 `;
-
-export const useCurrentUser = () => {
-  return useQuery(GET_CURRENT_USER);
-};
