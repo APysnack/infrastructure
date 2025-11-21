@@ -17,7 +17,6 @@ function App() {
   const loading = useSelector((state) => state.user.loading);
 
   useEffect(() => {
-    // Fetch current user once on app mount
     dispatch(fetchCurrentUser());
   }, [dispatch]);
 

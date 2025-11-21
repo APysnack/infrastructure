@@ -21,14 +21,8 @@ function Header({ title }) {
   ];
 
   const handleLogout = async () => {
-    const result = await dispatch(signOutUser());
-
-    if (signOutUser.fulfilled.match(result)) {
-      navigate('/', { replace: true });
-    } else {
-      // Even if logout fails, navigate to home (user will be redirected by ProtectedRoute anyway)
-      navigate('/', { replace: true });
-    }
+    await dispatch(signOutUser());
+    navigate('/', { replace: true });
   };
 
   const handleLogoClick = () => {
