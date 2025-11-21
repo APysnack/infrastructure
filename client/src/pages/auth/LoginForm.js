@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@apollo/client/react';
-import { SIGN_IN_MUTATION, GET_CURRENT_USER } from '../../utils/graphqlQueries';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInUser } from '../../store/thunks';
 import {
   Container,
   Card,
@@ -18,37 +18,19 @@ import {
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
 
-  const [signIn, { loading }] = useMutation(SIGN_IN_MUTATION, {
-    refetchQueries: [{ query: GET_CURRENT_USER }],
-    awaitRefetchQueries: true,
-    onCompleted: (data) => {
-      if (data.signIn.success) {
-        navigate('/members');
-      } else {
-        setError(data.signIn.message || 'Failed to sign in');
-      }
-    },
-    onError: (err) => {
-      console.error('Sign in error:', err);
-      setError(err.message || 'An error occurred during sign in');
-    },
-  });
+  const { loading, error } = useSelector((state) => state.user);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
 
-    try {
-      await signIn({
-        variables: { email, password },
-      });
-    } catch (err) {
-      console.error('Error signing in:', err);
-      setError(err.message || 'Failed to sign in. Please try again.');
+    const result = await dispatch(signInUser({ email, password }));
+
+    if (signInUser.fulfilled.match(result)) {
+      navigate('/members');
     }
   };
 

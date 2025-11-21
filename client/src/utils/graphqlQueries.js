@@ -1,11 +1,11 @@
 import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
 
 export const GET_CURRENT_USER = gql`
   query GetCurrentUser {
     currentUser {
       id
       email
+      settings
       createdAt
       updatedAt
     }
@@ -53,6 +53,18 @@ export const SIGN_UP_MUTATION = gql`
   }
 `;
 
-export const useCurrentUser = () => {
-  return useQuery(GET_CURRENT_USER);
-};
+export const UPDATE_SETTINGS_MUTATION = gql`
+  mutation UpdateSettings($settings: JSON!) {
+    updateSettings(settings: $settings) {
+      success
+      message
+      user {
+        id
+        email
+        settings
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;

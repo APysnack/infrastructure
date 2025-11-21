@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@apollo/client/react';
-import { SIGN_UP_MUTATION, GET_CURRENT_USER } from '../../../utils/graphqlQueries';
+import { useDispatch, useSelector } from 'react-redux';
+import { signUpUser } from '../../../store/thunks';
 import {
   Container,
   Card,
@@ -18,45 +18,31 @@ import {
 
 const SignupForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
-  const [error, setError] = useState('');
+  const [validationError, setValidationError] = useState('');
 
-  const [signUp, { loading }] = useMutation(SIGN_UP_MUTATION, {
-    refetchQueries: [{ query: GET_CURRENT_USER }],
-    awaitRefetchQueries: true,
-    onCompleted: (data) => {
-      if (data.signUp.success) {
-        navigate('/members');
-      } else {
-        setError(data.signUp.message || 'Failed to sign up');
-      }
-    },
-    onError: (err) => {
-      console.error('Sign up error:', err);
-      setError(err.message || 'An error occurred during sign up');
-    },
-  });
+  const { loading, error } = useSelector((state) => state.user);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setValidationError('');
 
     if (password !== passwordConfirmation) {
-      setError('Passwords do not match');
+      setValidationError('Passwords do not match');
       return;
     }
 
-    try {
-      await signUp({
-        variables: { email, password, passwordConfirmation },
-      });
-    } catch (err) {
-      console.error('Error signing up:', err);
-      setError(err.message || 'Failed to sign up. Please try again.');
+    const result = await dispatch(signUpUser({ email, password, passwordConfirmation }));
+
+    if (signUpUser.fulfilled.match(result)) {
+      navigate('/members');
     }
   };
+
+  const displayError = validationError || error;
 
   return (
     <Container>
@@ -64,7 +50,7 @@ const SignupForm = () => {
         <Title>Create Account</Title>
         <Subtitle>Join us today</Subtitle>
 
-        {error && <Alert>{error}</Alert>}
+        {displayError && <Alert>{displayError}</Alert>}
 
         <Form onSubmit={handleSubmit}>
           <FormGroup>
