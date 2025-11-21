@@ -1,28 +1,19 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useMutation } from '@apollo/client/react';
+import { useDispatch, useSelector } from 'react-redux';
+import { signOutUser } from '../store/slices/userSlice';
 import { LogoutButton } from '../pages/auth/UserDashboard/DashboardElements';
 import { useTheme } from '../context/ThemeContext';
-import { SIGN_OUT_MUTATION, GET_CURRENT_USER } from '../utils/graphqlQueries';
 import { HeaderBar, Brand, Logo, Title, Actions, ActionItem } from './Header.styles';
 import { MembersIcon, LogoutIcon, SettingsIcon, AtomLogo } from './icons';
 
 function Header({ title }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { theme } = useTheme();
   const location = useLocation();
   const colors = theme?.colors || {};
 
-  const [signOut, { loading: isLoggingOut }] = useMutation(SIGN_OUT_MUTATION, {
-    refetchQueries: [{ query: GET_CURRENT_USER }],
-    awaitRefetchQueries: true,
-    onCompleted: () => {
-      navigate('/', { replace: true });
-    },
-    onError: (error) => {
-      console.error('Logout failed:', error);
-      navigate('/', { replace: true });
-    },
-  });
+  const loading = useSelector((state) => state.user.loading);
 
   const actionItems = [
     { label: 'Members', to: '/members', icon: MembersIcon },
@@ -30,10 +21,12 @@ function Header({ title }) {
   ];
 
   const handleLogout = async () => {
-    try {
-      await signOut();
-    } catch (error) {
-      console.error('Error during logout:', error);
+    const result = await dispatch(signOutUser());
+
+    if (signOutUser.fulfilled.match(result)) {
+      navigate('/', { replace: true });
+    } else {
+      // Even if logout fails, navigate to home (user will be redirected by ProtectedRoute anyway)
       navigate('/', { replace: true });
     }
   };
@@ -70,7 +63,7 @@ function Header({ title }) {
             </ActionItem>
           );
         })}
-        <LogoutButton onClick={handleLogout} disabled={isLoggingOut} title="Log out">
+        <LogoutButton onClick={handleLogout} disabled={loading} title="Log out">
           <LogoutIcon color="white" />
         </LogoutButton>
       </Actions>
