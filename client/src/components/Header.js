@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { signOutUser } from '../store/slices/userSlice';
+import { signOutUser } from '../store/thunks';
 import { LogoutButton } from '../pages/auth/UserDashboard/DashboardElements';
 import { useTheme } from '../context/ThemeContext';
 import { HeaderBar, Brand, Logo, Title, Actions, ActionItem } from './Header.styles';

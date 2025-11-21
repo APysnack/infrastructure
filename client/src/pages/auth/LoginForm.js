@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { signInUser } from '../../store/slices/userSlice';
+import { signInUser } from '../../store/thunks';
 import {
   Container,
   Card,

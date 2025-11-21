@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
-import { fetchCurrentUser } from './store/slices/userSlice';
+import { fetchCurrentUser } from './store/thunks';
 import LoginForm from './pages/auth/LoginForm';
 import SignupForm from './pages/auth/SignupForm/SignupForm';
 import UserDashboard from './pages/auth/UserDashboard/UserDashboard';
