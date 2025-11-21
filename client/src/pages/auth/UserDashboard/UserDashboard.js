@@ -1,4 +1,4 @@
-import { DashboardContainer, DashboardCard, DashboardTitle } from './ThemeableDashboardComponents';
+import { DashboardContainer, DashboardCard, DashboardTitle } from './DashboardElements';
 
 function UserDashboard() {
   return (

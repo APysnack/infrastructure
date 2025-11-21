@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useMutation } from '@apollo/client/react';
-import { LogoutButton } from '../pages/auth/ThemeableDashboardComponents';
+import { LogoutButton } from '../pages/auth/UserDashboard/DashboardElements';
 import { useTheme } from '../context/ThemeContext';
 import { SIGN_OUT_MUTATION, GET_CURRENT_USER } from '../utils/graphqlQueries';
 import { HeaderBar, Brand, Logo, Title, Actions, ActionItem } from './Header.styles';

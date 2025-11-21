@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client/react';
-import { SIGN_UP_MUTATION, GET_CURRENT_USER } from '../../utils/graphqlQueries';
+import { SIGN_UP_MUTATION, GET_CURRENT_USER } from '../../../utils/graphqlQueries';
 import {
   Container,
   Card,
@@ -14,7 +14,7 @@ import {
   SecondaryButton,
   Divider,
   Alert,
-} from './ThemeableComponents';
+} from '../forms/FormElements';
 
 const SignupForm = () => {
   const navigate = useNavigate();

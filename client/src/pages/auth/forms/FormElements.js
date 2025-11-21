@@ -10,8 +10,8 @@ import {
   SecondaryButton as StyledSecondaryButton,
   Divider as StyledDivider,
   Alert as StyledAlert,
-} from './SignupForm.styles';
-import { useTheme } from '../../context/ThemeContext';
+} from './FormElements.styles';
+import { useTheme } from '../../../context/ThemeContext';
 
 export const Container = (props) => {
   const { theme } = useTheme();

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import SignupForm from './SignupForm';
+import SignupForm from './SignupForm/SignupForm';
 import LoginForm from './LoginForm';
 
 const LoginPage = () => {
