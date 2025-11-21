@@ -1,6 +1,5 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-import { useMutation, useQuery } from '@apollo/client/react';
-import { UPDATE_SETTINGS_MUTATION, GET_CURRENT_USER } from '../utils/graphqlQueries';
+import { useSettings } from './SettingsContext';
 import {
   discordDarkTheme,
   modernSlateTheme,
@@ -22,30 +21,29 @@ const themes = {
 };
 
 export const ThemeProvider = ({ children }) => {
-  const [currentTheme, setCurrentTheme] = useState(null);
-  const [updateSettings] = useMutation(UPDATE_SETTINGS_MUTATION);
-  const { data } = useQuery(GET_CURRENT_USER, { fetchPolicy: 'cache-and-network' });
+  const { settings: userSettings, updateSettings } = useSettings();
+  const [currentTheme, setCurrentTheme] = useState(() => {
+    try {
+      const saved = localStorage.getItem('selectedTheme');
+      return saved || null;
+    } catch (e) {
+      return null;
+    }
+  });
+
   const theme = themes[currentTheme] || modernSlateTheme;
 
   useEffect(() => {
-    const user = data && data.currentUser;
-    if (user && user.settings && user.settings.theme) {
-      const themeFromUser = user.settings.theme;
-      if (themes[themeFromUser] && themeFromUser !== currentTheme) {
-        setCurrentTheme(themeFromUser);
-        return;
-      }
+    const themeFromUser = userSettings && userSettings.theme;
+    if (themeFromUser && themes[themeFromUser] && themeFromUser !== currentTheme) {
+      setCurrentTheme(themeFromUser);
+      return;
     }
 
     if (currentTheme === null) {
-      try {
-        const saved = localStorage.getItem('selectedTheme');
-        setCurrentTheme(saved || 'modern-slate');
-      } catch (e) {
-        setCurrentTheme('modern-slate');
-      }
+      setCurrentTheme((prev) => prev || 'modern-slate');
     }
-  }, [data, currentTheme]);
+  }, [userSettings, currentTheme]);
 
   useEffect(() => {
     if (currentTheme == null) return;
@@ -60,7 +58,7 @@ export const ThemeProvider = ({ children }) => {
     if (!themes[themeName]) return;
     setCurrentTheme(themeName);
     try {
-      await updateSettings({ variables: { settings: { theme: themeName } } });
+      await updateSettings({ theme: themeName });
     } catch (e) {
       // eslint-disable-next-line no-console
       console.warn('Failed to persist theme setting:', e);

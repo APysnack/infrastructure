@@ -2,8 +2,12 @@ import { useTheme } from '../context/ThemeContext';
 import { SelectorContainer, Select } from './ThemeSelector.styles';
 
 export const ThemeSelector = ({ inline = false }) => {
-  const { currentTheme, switchTheme, availableThemes } = useTheme();
-  const { colors } = useTheme().theme;
+  const {
+    currentTheme,
+    switchTheme,
+    availableThemes,
+    theme: { colors },
+  } = useTheme();
 
   const themeLabels = {
     'discord-dark': 'Discord Dark',
@@ -16,7 +20,7 @@ export const ThemeSelector = ({ inline = false }) => {
   return (
     <SelectorContainer $inline={inline}>
       <Select
-        value={currentTheme}
+        value={currentTheme || ''}
         onChange={(e) => switchTheme(e.target.value)}
         $backgroundColor={colors.card}
         $borderColor={colors.cardBorder || colors.inputBorder}
