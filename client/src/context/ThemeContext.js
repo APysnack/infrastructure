@@ -62,8 +62,6 @@ export const ThemeProvider = ({ children }) => {
     try {
       await updateSettings({ variables: { settings: { theme: themeName } } });
     } catch (e) {
-      // log so persistence issues are visible during development
-      // (no user-facing UI change here)
       // eslint-disable-next-line no-console
       console.warn('Failed to persist theme setting:', e);
     }

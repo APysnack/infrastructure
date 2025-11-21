@@ -8,7 +8,6 @@ class User < ApplicationRecord
 
   after_create :assign_default_role
 
-  # Merge provided settings into the existing settings hash and persist.
   # Returns true when update succeeds, false otherwise.
   def update_settings(new_settings)
     new_settings_hash = new_settings.respond_to?(:to_h) ? new_settings.to_h : new_settings
